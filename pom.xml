@@ -9,9 +9,9 @@
         <relativePath/>
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>exemploSpringApi</artifactId>
+    <artifactId>exemploSpringBootApi</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>exemploSpringApi</name>
+    <name>exemploSpringBootApi</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>
