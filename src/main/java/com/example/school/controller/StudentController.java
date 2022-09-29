@@ -34,14 +34,13 @@ public class StudentController {
     StudentRepository studentRepository;
 
     @GetMapping("/students")
-    public ResponseEntity<List<Student>> getAllProducts() {
+    public ResponseEntity<List<Student>> getAll() {
         return new ResponseEntity<>(studentRepository.findAll(), HttpStatus.OK);
 
     }
 
     @GetMapping("/students/{id}")
-    public ResponseEntity<Student>
-            getOneProduct(@PathVariable(value = "id") UUID id) {
+    public ResponseEntity<Student> getById(@PathVariable(value = "id") UUID id) {
         Optional<Student> studentO = studentRepository.findById(id);
         if (studentO.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -50,13 +49,12 @@ public class StudentController {
     }
 
     @PostMapping("/students")
-    public ResponseEntity<Student> saveProduct(@RequestBody @Valid Student student) {
+    public ResponseEntity<Student> save(@RequestBody @Valid Student student) {
         return new ResponseEntity<>(studentRepository.save(student), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/students/{id}")
-    public ResponseEntity<?>
-            deleteProduct(@PathVariable(value = "id") UUID id) {
+    public ResponseEntity<?> delete(@PathVariable(value = "id") UUID id) {
         Optional<Student> productO
                 = studentRepository.findById(id);
         if (productO.isEmpty()) {
@@ -67,8 +65,7 @@ public class StudentController {
     }
 
     @PutMapping("/students/{id}")
-    public ResponseEntity<Student>
-            updateProduct(@PathVariable(value = "id") UUID id,
+    public ResponseEntity<Student> update(@PathVariable(value = "id") UUID id,
                     @RequestBody @Valid Student student) {
         Optional<Student> studentO = studentRepository.findById(id);
         if (studentO.isEmpty()) {
