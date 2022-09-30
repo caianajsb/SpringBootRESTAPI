@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author caian
  */
 @RestController
+@CrossOrigin(origins = "*")
 public class StudentController {
 
     @Autowired
