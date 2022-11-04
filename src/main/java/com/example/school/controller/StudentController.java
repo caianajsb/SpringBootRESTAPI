@@ -14,14 +14,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.school.repository.StudentRepository;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
@@ -29,15 +36,17 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author caian
  */
 @RestController
+@RequestMapping(value = "school")
 @CrossOrigin(origins = "*")
+@OpenAPIDefinition(info = @Info(title = "Students API", version = "1.0", description = "Students Information"))
 public class StudentController {
 
     @Autowired
     StudentRepository studentRepository;
 
     @GetMapping("/students")
-    public ResponseEntity<List<Student>> getAll() {
-        return new ResponseEntity<>(studentRepository.findAll(), HttpStatus.OK);
+    public ResponseEntity<Page<Student>> getAll(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC)Pageable pageable) {
+        return new ResponseEntity<>(studentRepository.findAll(pageable), HttpStatus.OK);
 
     }
 
