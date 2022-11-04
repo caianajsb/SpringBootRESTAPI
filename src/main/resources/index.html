@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Spring Boot AJAX jQuery CRUD</title>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+        <!--<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <!-- jQuery Modal -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+        <link rel="stylesheet" href="style.css" >
+        <script>
+            $(document).ready(function () {
+                $.getJSON('http://localhost:8080/school/students', function (json) {
+                    var tr = [];
+                    for (var i = 0; i < json.length; i++) {
+                        tr.push('<tr>');
+                        tr.push('<td>' + json[i].id + '</td>');
+                        tr.push('<td>' + json[i].name + '</td>');
+                        tr.push('<td>' + json[i].email + '</td>');
+                        tr.push('<td><button class=\'edit\'>Edit</button>&nbsp;&nbsp;<button class=\'delete\' id=' + json[i].id + '>Delete</button></td>');
+                        tr.push('</tr>');
+                    }
+                    $('table').append($(tr.join('')));
+                });
+                $(document).delegate('#addNew', 'click', function (event) {
+                    event.preventDefault();
+                    var name = $('#name').val();
+                    var email = $('#email').val();
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        url: "http://localhost:8080/school/students",
+                        data: JSON.stringify({'name': name, 'email' : email}),
+                        cache: false,
+                        success: function (result) {
+                            $("#msg").html("<span style='color: green'>Student added successfully</span>");
+                            window.setTimeout(function () {
+                                location.reload()
+                            }, 1000)
+                        },
+                        error: function (err) {
+                            alert(err.responseText);
+                             
+                        }
+                    });
+                });
+                $(document).delegate('.delete', 'click', function () {
+                    if (confirm('Do you really want to delete record?')) {
+                        var id = $(this).attr('id');
+                        var parent = $(this).parent().parent();
+                        $.ajax({
+                            type: "DELETE",
+                            url: "http://localhost:8080/school/students/" + id,
+                            cache: false,
+                            success: function () {
+                                parent.fadeOut('slow', function () {
+                                    $(this).remove();
+                                });
+                                location.reload(true)
+                            },
+                            error: function () {
+                                $('#err').html('<span style=\'color:red; font-weight: bold; font-size: 30px;\'>Error deleting record').fadeIn().fadeOut(4000, function () {
+                                    $(this).remove();
+                                });
+                            }
+                        });
+                    }
+                });
+                $(document).delegate('.edit', 'click', function () {
+                    var parent = $(this).parent().parent();
+                    var id = parent.children("td:nth-child(1)");
+                    var name = parent.children("td:nth-child(2)");
+                    var email = parent.children("td:nth-child(3)");
+                    var buttons = parent.children("td:nth-child(4)");
+                    name.html("<input type='text' id='txtName' value='" + name.html() + "'/>");
+                    email.html("<input type='text' id='txtEmail' value='" + email.html() + "'/>");
+                    buttons.html("<button id='save'>Save</button>&nbsp;&nbsp;<button class='delete' id='" + id.html() + "'>Delete</button>");
+                });
+                $(document).delegate('#save', 'click', function () {
+                    var parent = $(this).parent().parent();
+                    var id = parent.children("td:nth-child(1)");
+                    var name = parent.children("td:nth-child(2)");
+                    var email = parent.children("td:nth-child(3)");
+                    var buttons = parent.children("td:nth-child(4)");
+                    $.ajax({
+                        type: "PUT",
+                        contentType: "application/json; charset=utf-8",
+                        url: "http://localhost:8080/school/students/" + id.html(),
+                        data: JSON.stringify({'name': name.children("input[type=text]").val(), 'email': email.children("input[type=text]").val()}),
+                        cache: false,
+                        success: function () {
+                            name.html(name.children("input[type=text]").val());
+                            email.html(email.children("input[type=text]").val());
+                            buttons.html("<button class='edit' id='" + id.html() + "'>Edit</button>&nbsp;&nbsp;<button class='delete' id='" + id.html() + "'>Delete</button>");
+                        },
+                        error: function (err) {
+                            $("#err").html("<span style='color: red'>" + err.responseText + "</span>").fadeIn().fadeOut(4000, function () {
+
+                            });
+                        }
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <h2>Spring Boot AJAX jQuery CRUD</h2>
+        
+        <p><a class='btn' href="#add" rel="modal:open">Add New Student</a></p>
+        <div id='err'/>
+        
+        <table border="1" cellspacing="0" cellpadding="5">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>email</th>
+                <th>Actions</th>
+            </tr>
+        </table>
+         
+        <form id="add" action="#" class="add_form modal" style="display:none;">
+             <div id='msg'/>
+            <h3>Add a New Student</h3>
+            <p>
+                <label>Name</label>
+                <input type="text" id="name" name="name">
+                <br>
+                <label>Email</label>
+                <input type="text" id="email" name="email">
+            </p>
+            <p>
+                <input type="submit" id="addNew" value="Submit">
+            </p>
+        </form>
+    </body>
+</html>
