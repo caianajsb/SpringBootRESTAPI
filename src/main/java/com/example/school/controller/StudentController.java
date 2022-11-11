@@ -1,7 +1,6 @@
 package com.example.school.controller;
 
 import com.example.school.model.Student;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import javax.validation.Valid;
