@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @RestController
 @RequestMapping(value = "school")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @OpenAPIDefinition(info = @Info(title = "Students API", version = "1.0", description = "Students Information"))
 public class StudentController {
 
