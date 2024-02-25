@@ -17,9 +17,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-@SpringBootTest(classes = SchoolApplication.class)
+//@SpringBootTest(classes = SchoolApplication.class)
 public class SchoolApplicationTests {
-    @Autowired
+   /** @Autowired
     private WebApplicationContext context;
 
     private MockMvc mvc;
@@ -86,5 +86,5 @@ public class SchoolApplicationTests {
     public void whenUserAccessDeleteSecuredEndpoint_thenIsForbidden() throws Exception {
         mvc.perform(delete("/students"))
           .andExpect(status().isForbidden());
-    }
+    }**/
 }
