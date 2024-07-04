@@ -1,5 +1,7 @@
 package com.example.school.configuration;
 
+import com.example.school.model.RoleModel;
+import com.example.school.model.RoleName;
 import com.example.school.model.UserModel;
 import com.example.school.repository.UserRepository;
 import javax.transaction.Transactional;
@@ -17,6 +19,21 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     public UserDetailsServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
+        UserModel userModel = new UserModel();
+        userModel.setPassword("$2a$10$jTmouezrspbJfnb9qSjGbOU.kSANCrgkhWdfVfKyaLlvQdhq2K77a");
+        userModel.setUsername("admin");
+        RoleModel roleModel = new RoleModel();
+        roleModel.setRoleName(RoleName.ROLE_ADMIN);
+
+        userRepository.save(userModel);
+
+        userModel = new UserModel();
+        userModel.setPassword("$2a$10$jTmouezrspbJfnb9qSjGbOU.kSANCrgkhWdfVfKyaLlvQdhq2K77a");
+        userModel.setUsername("user");
+        roleModel = new RoleModel();
+        roleModel.setRoleName(RoleName.ROLE_USER);
+
+        userRepository.save(userModel);
     }
 
     @Override
