@@ -22,21 +22,20 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-      
+
         http
-        .csrf(csrf -> csrf.disable())  
-        .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))                     
+            .csrf(csrf -> csrf.disable())
+            .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
-            .requestMatchers("/swagger-ui/**", "/v3/api-docs/**","/swagger-ui.html")
-            .permitAll()
-            .requestMatchers(HttpMethod.POST, "/login").permitAll()
-            .requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
-            .requestMatchers(HttpMethod.PUT).hasRole("ADMIN")
-            .requestMatchers(HttpMethod.POST).hasRole("ADMIN") 
-            .requestMatchers(HttpMethod.GET).hasAnyRole("USER", "ADMIN")               
-            .anyRequest().authenticated())
+                    .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                    .requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.PUT).hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.POST).hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.GET).hasAnyRole("USER", "ADMIN")
+                    .anyRequest().authenticated())
             .httpBasic(Customizer.withDefaults());
-            
 
         return http.build();
     }
