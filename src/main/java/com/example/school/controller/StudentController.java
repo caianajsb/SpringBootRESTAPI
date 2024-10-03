@@ -3,7 +3,6 @@ package com.example.school.controller;
 import com.example.school.model.Student;
 import java.util.Optional;
 import java.util.UUID;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.school.repository.StudentRepository;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
+import jakarta.validation.Valid;
+
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.data.domain.Page;
