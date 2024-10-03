@@ -4,12 +4,12 @@ import com.example.school.model.RoleModel;
 import com.example.school.model.RoleName;
 import com.example.school.model.UserModel;
 import com.example.school.repository.UserRepository;
-import javax.transaction.Transactional;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
@@ -24,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         userModel.setUsername("admin");
         RoleModel roleModel = new RoleModel();
         roleModel.setRoleName(RoleName.ROLE_ADMIN);
-
+        userModel.addRoleModel(roleModel);
         userRepository.save(userModel);
 
         userModel = new UserModel();
@@ -32,7 +32,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         userModel.setUsername("user");
         roleModel = new RoleModel();
         roleModel.setRoleName(RoleName.ROLE_USER);
-
+        userModel.addRoleModel(roleModel);
         userRepository.save(userModel);
     }
 
